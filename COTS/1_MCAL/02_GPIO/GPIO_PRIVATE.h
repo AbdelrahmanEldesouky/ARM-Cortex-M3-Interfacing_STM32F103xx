@@ -12,8 +12,9 @@
 #ifndef GPIO_PRIVATE_H_
 #define GPIO_PRIVATE_H_
 
-#define GPIO_NIBBLE						4
+#define GPIO_NIBBLE_SIZE				4
 #define GPIO_UPPER_PIN					8
+#define GPIO_NIBBLE_MASK				(0b1111)
 
 #define GPIO_PORT_DIR_MUL				(0X11111111)
 

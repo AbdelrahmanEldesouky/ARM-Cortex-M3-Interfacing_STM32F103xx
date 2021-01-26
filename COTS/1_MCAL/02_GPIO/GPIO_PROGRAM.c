@@ -25,12 +25,14 @@ uint8 GPIO_uint8SetPinDirection		(uint8 Copy_uint8PortID , uint8 Copy_uint8PinID
 			case GPIO_PORTA :
 				if (Copy_uint8PinID < GPIO_PIN8)
 				{
-					GPIOA_CRL = (Copy_uint8PinDirection << (Copy_uint8PinID * GPIO_NIBBLE)) ;
+					GPIOA->CRL &= ~ (GPIO_NIBBLE_MASK << (Copy_uint8PinID * GPIO_NIBBLE_SIZE)) ;
+					GPIOA->CRL |= (Copy_uint8PinDirection << (Copy_uint8PinID * GPIO_NIBBLE_SIZE)) ;
 				}
 				else if (Copy_uint8PinID <= GPIO_PIN15)
 				{
 					Copy_uint8PinID -= GPIO_UPPER_PIN ;
-					GPIOA_CRH = (Copy_uint8PinDirection << (Copy_uint8PinID * GPIO_NIBBLE)) ;
+					GPIOA->CRH &= ~ (GPIO_NIBBLE_MASK << (Copy_uint8PinID * GPIO_NIBBLE_SIZE)) ;
+					GPIOA->CRH |= (Copy_uint8PinDirection << (Copy_uint8PinID * GPIO_NIBBLE_SIZE)) ;
 				}
 				else
 				{
@@ -40,12 +42,14 @@ uint8 GPIO_uint8SetPinDirection		(uint8 Copy_uint8PortID , uint8 Copy_uint8PinID
 			case GPIO_PORTB :
 				if (Copy_uint8PinID < GPIO_PIN8)
 				{
-					GPIOB_CRL = (Copy_uint8PinDirection << (Copy_uint8PinID * GPIO_NIBBLE)) ;
+					GPIOB->CRL &= ~ (GPIO_NIBBLE_MASK << (Copy_uint8PinID * GPIO_NIBBLE_SIZE)) ;
+					GPIOB->CRL |= (Copy_uint8PinDirection << (Copy_uint8PinID * GPIO_NIBBLE_SIZE)) ;
 				}
 				else if (Copy_uint8PinID <= GPIO_PIN15)
 				{
 					Copy_uint8PinID -= GPIO_UPPER_PIN ;
-					GPIOB_CRH = (Copy_uint8PinDirection << (Copy_uint8PinID * GPIO_NIBBLE)) ;
+					GPIOB->CRH &= ~ (GPIO_NIBBLE_MASK << (Copy_uint8PinID * GPIO_NIBBLE_SIZE)) ;
+					GPIOB->CRH |= (Copy_uint8PinDirection << (Copy_uint8PinID * GPIO_NIBBLE_SIZE)) ;
 				}
 				else
 				{
@@ -55,12 +59,14 @@ uint8 GPIO_uint8SetPinDirection		(uint8 Copy_uint8PortID , uint8 Copy_uint8PinID
 			case GPIO_PORTC :
 				if (Copy_uint8PinID < GPIO_PIN8)
 				{
-					GPIOC_CRL = (Copy_uint8PinDirection << (Copy_uint8PinID * GPIO_NIBBLE)) ;
+					GPIOC->CRL &= ~ (GPIO_NIBBLE_MASK << (Copy_uint8PinID * GPIO_NIBBLE_SIZE)) ;
+					GPIOC->CRL |= (Copy_uint8PinDirection << (Copy_uint8PinID * GPIO_NIBBLE_SIZE)) ;
 				}
 				else if (Copy_uint8PinID <= GPIO_PIN15)
 				{
 					Copy_uint8PinID -= GPIO_UPPER_PIN ;
-					GPIOC_CRH = (Copy_uint8PinDirection << (Copy_uint8PinID * GPIO_NIBBLE)) ;
+					GPIOC->CRH &= ~ (GPIO_NIBBLE_MASK << (Copy_uint8PinID * GPIO_NIBBLE_SIZE)) ;
+					GPIOC->CRH |= (Copy_uint8PinDirection << (Copy_uint8PinID * GPIO_NIBBLE_SIZE)) ;
 				}
 				else
 				{
@@ -82,11 +88,11 @@ uint8 GPIO_uint8SetPinValue			(uint8 Copy_uint8PortID , uint8 Copy_uint8PinID , 
 			case GPIO_PORTA :
 				if (Copy_uint8PinValue == GPIO_PIN_LOW)
 				{
-					GPIOA_BRR = (1 << Copy_uint8PinID) ; break ;
+					GPIOA->BRR = (1 << Copy_uint8PinID) ; break ;
 				}
 				else if (Copy_uint8PinValue == GPIO_PIN_HIGH)
 				{
-					GPIOA_BSRR = (1 << Copy_uint8PinID) ; break ;
+					GPIOA->BSRR = (1 << Copy_uint8PinID) ; break ;
 				}
 				else
 				{
@@ -96,11 +102,11 @@ uint8 GPIO_uint8SetPinValue			(uint8 Copy_uint8PortID , uint8 Copy_uint8PinID , 
 			case GPIO_PORTB :
 				if (Copy_uint8PinValue == GPIO_PIN_LOW)
 				{
-					GPIOB_BRR = (1 << Copy_uint8PinID) ; break ;
+					GPIOB->BRR = (1 << Copy_uint8PinID) ; break ;
 				}
 				else if (Copy_uint8PinValue == GPIO_PIN_HIGH)
 				{
-					GPIOB_BSRR = (1 << Copy_uint8PinID) ; break ;
+					GPIOB->BSRR = (1 << Copy_uint8PinID) ; break ;
 				}
 				else
 				{
@@ -110,11 +116,11 @@ uint8 GPIO_uint8SetPinValue			(uint8 Copy_uint8PortID , uint8 Copy_uint8PinID , 
 			case GPIO_PORTC :
 				if (Copy_uint8PinValue == GPIO_PIN_LOW)
 				{
-					GPIOC_BRR = (1 << Copy_uint8PinID) ; break ;
+					GPIOC->BRR = (1 << Copy_uint8PinID) ; break ;
 				}
 				else if (Copy_uint8PinValue == GPIO_PIN_HIGH)
 				{
-					GPIOC_BSRR = (1 << Copy_uint8PinID) ; break ;
+					GPIOC->BSRR = (1 << Copy_uint8PinID) ; break ;
 				}
 				else
 				{
@@ -135,9 +141,9 @@ uint8 GPIO_uint8GetPinValue			(uint8 Copy_uint8PortID , uint8 Copy_uint8PinID , 
 	{
 		switch	(Copy_uint8PortID)
 		{
-				case GPIO_PORTA : * Copy_puint8PinState = GET_BIT(GPIOA_IDR , Copy_uint8PinID) ; break ;
-				case GPIO_PORTB : * Copy_puint8PinState = GET_BIT(GPIOB_IDR , Copy_uint8PinID) ; break ;
-				case GPIO_PORTC : * Copy_puint8PinState = GET_BIT(GPIOC_IDR , Copy_uint8PinID) ; break ;
+				case GPIO_PORTA : * Copy_puint8PinState = GET_BIT(GPIOA->IDR , Copy_uint8PinID) ; break ;
+				case GPIO_PORTB : * Copy_puint8PinState = GET_BIT(GPIOB->IDR , Copy_uint8PinID) ; break ;
+				case GPIO_PORTC : * Copy_puint8PinState = GET_BIT(GPIOC->IDR , Copy_uint8PinID) ; break ;
 				default : Local_uint8ErrorState = NOK ; break ;
 		}
 	}
@@ -156,16 +162,16 @@ uint8 GPIO_uint8SetPortDirection	(uint8 Copy_uint8PortID , uint32 Copy_uint8Port
 	switch	(Copy_uint8PortID)
 	{
 			case GPIO_PORTA :
-					GPIOA_CRL = Copy_uint8PortDirection * GPIO_PORT_DIR_MUL ;
-					GPIOA_CRH = Copy_uint8PortDirection * GPIO_PORT_DIR_MUL ;
+					GPIOA->CRL = Copy_uint8PortDirection * GPIO_PORT_DIR_MUL ;
+					GPIOA->CRH = Copy_uint8PortDirection * GPIO_PORT_DIR_MUL ;
 				break ;
 			case GPIO_PORTB :
-					GPIOB_CRL = Copy_uint8PortDirection * GPIO_PORT_DIR_MUL ;
-					GPIOB_CRH = Copy_uint8PortDirection * GPIO_PORT_DIR_MUL ;
+					GPIOB->CRL = Copy_uint8PortDirection * GPIO_PORT_DIR_MUL ;
+					GPIOB->CRH = Copy_uint8PortDirection * GPIO_PORT_DIR_MUL ;
 				break ;
 			case GPIO_PORTC :
-					GPIOC_CRL = Copy_uint8PortDirection * GPIO_PORT_DIR_MUL ;
-					GPIOC_CRH = Copy_uint8PortDirection * GPIO_PORT_DIR_MUL ;
+					GPIOC->CRL = Copy_uint8PortDirection * GPIO_PORT_DIR_MUL ;
+					GPIOC->CRH = Copy_uint8PortDirection * GPIO_PORT_DIR_MUL ;
 				break ;
 			default : Local_uint8ErrorState = NOK ; break ;
 	}
@@ -178,9 +184,9 @@ uint8 GPIO_uint8SetPortValue		(uint8 Copy_uint8PortID , uint16 Copy_uint8PortVal
 	uint8 Local_uint8ErrorState = OK ;
 	switch	(Copy_uint8PortID)
 	{
-			case GPIO_PORTA : GPIOA_ODR = Copy_uint8PortValue ; break ;
-			case GPIO_PORTB : GPIOB_ODR = Copy_uint8PortValue ; break ;
-			case GPIO_PORTC : GPIOC_ODR = Copy_uint8PortValue ; break ;
+			case GPIO_PORTA : GPIOA->ODR = Copy_uint8PortValue ; break ;
+			case GPIO_PORTB : GPIOB->ODR = Copy_uint8PortValue ; break ;
+			case GPIO_PORTC : GPIOC->ODR = Copy_uint8PortValue ; break ;
 			default : Local_uint8ErrorState = NOK ; break ;
 	}
 	return Local_uint8ErrorState ;
@@ -191,9 +197,9 @@ uint8 GPIO_uint8GetPortValue		(uint8 Copy_uint8PortID , uint16 * Copy_puint8Port
 	uint8 Local_uint8ErrorState = OK ;
 	switch	(Copy_uint8PortID)
 	{
-			case GPIO_PORTA : * Copy_puint8PortState = GPIOA_IDR ; break ;
-			case GPIO_PORTB : * Copy_puint8PortState = GPIOB_IDR ; break ;
-			case GPIO_PORTC : * Copy_puint8PortState = GPIOC_IDR ; break ;
+			case GPIO_PORTA : * Copy_puint8PortState = GPIOA->IDR ; break ;
+			case GPIO_PORTB : * Copy_puint8PortState = GPIOB->IDR ; break ;
+			case GPIO_PORTC : * Copy_puint8PortState = GPIOC->IDR ; break ;
 			default : Local_uint8ErrorState = NOK ; break ;
 	}
 	return Local_uint8ErrorState ;
